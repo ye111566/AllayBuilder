@@ -67,13 +67,13 @@ AllayBuilder 是一个用于 AllayMC 服务器的建筑辅助插件，提供了�
 
 命令 功能 示例
 
-/builder fill <方块> 用指定方块填充选区 /builder fill minecraft:stone
+/builder fill <方块> 用指定方块填充选区 /builder fill stone []
 
-/builder replace <新方块> <旧方块> 替换选区内的特定方块 /builder replace minecraft:glass minecraft:stone
++replace <新方块> <旧方块> 替换选区内的特定方块  /builder fill stone [] replace air []
 
-/builder keep <方块> 只替换非空气方块 /builder keep minecraft:glass
++keep  只替换空气方块  /builder fill stone [] keep
 
-/builder maintain <新方块> <保留方块> 只替换非指定方块 /builder maintain minecraft:glass minecraft:stone
++maintain  <保留方块> 只替换非指定方块   /builder fill stone [] maintain air []
 
 /builder save [名称] 保存选区为结构 /builder save my_castle
 
@@ -86,7 +86,7 @@ AllayBuilder 是一个用于 AllayMC 服务器的建筑辅助插件，提供了�
 1. 结构保存：
    • 结构文件保存在 ./structures/ 目录
 
-   • 文件名格式：builder_<名称>_<X坐标>_<Z坐标>.mcstructure
+   • 文件名格式：builder_<名称>_<X偏移基准点坐标>_<Z偏移基准点坐标>.mcstructure
 
    • 大型结构会自动分割为多个文件
 
@@ -110,6 +110,7 @@ AllayBuilder 是一个用于 AllayMC 服务器的建筑辅助插件，提供了�
 ##📜 开源协议
 
 本项目采用 LICENSE 开源，欢迎贡献代码和改进建议！
+
 
 
 
