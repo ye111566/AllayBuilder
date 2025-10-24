@@ -6,10 +6,10 @@ plugins {
 }
 
 // TODO: Update the group to yours
-group = "org.allaymc"
+group = "yedev.allaydev.allaybuilder"
 // TODO: Update the description to yours
-description = "Java plugin template for allay server"
-version = "0.1.0"
+description = "ybuilder for allay"
+version = "0.2.0"
 
 java {
     toolchain {

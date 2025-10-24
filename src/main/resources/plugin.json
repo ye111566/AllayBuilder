@@ -1,6 +1,9 @@
 {
-  "entrance": "org.allaymc.javaplugintemplate.JavaPluginTemplate",
-  "name": "JavaPluginTemplate",
-  "authors": ["YourNameHere"],
-  "version": "0.1.0"
+  "entrance": "yedev.allaydev.allaybuilder.AllayBuilder",
+  "name": "AllayBuilder",
+  "authors": ["ye111566"],
+  "version": "0.2.0",
+  "api_version": ">=0.15.0",
+  "description": "ybuilder for allay",
+  "website": "https://github.com/ye111566/AllayBuilder"
 }
