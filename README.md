@@ -79,6 +79,8 @@ AllayBuilder 是一个用于 AllayMC 服务器的建筑辅助插件，提供了�
 
 /builder load [名称] 加载保存的结构 /builder load my_castle
 
+/builder save/load 带gui的加载保存操作
+
 /builder show_load_direction <true/false> 显示/隐藏坐标轴指示器 /builder show_load_direction true
 
 ##高级使用技巧
@@ -110,6 +112,7 @@ AllayBuilder 是一个用于 AllayMC 服务器的建筑辅助插件，提供了�
 ##📜 开源协议
 
 本项目采用 LICENSE 开源，欢迎贡献代码和改进建议！
+
 
 
 
