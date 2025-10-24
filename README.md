@@ -1,4 +1,4 @@
-AllayBuilder 插件文档
+##AllayBuilder
 
 AllayBuilder 是一个用于 AllayMC 服务器的建筑辅助插件，提供了选区管理、结构保存/加载、区域填充和替换等强大功能，帮助玩家更高效地进行建筑创作。
 
@@ -110,3 +110,4 @@ AllayBuilder 是一个用于 AllayMC 服务器的建筑辅助插件，提供了�
 📜 开源协议
 
 本项目采用 LICENSE 开源，欢迎贡献代码和改进建议！
+
