@@ -28,21 +28,6 @@ public class BuilderCommand extends Command {
                 .blockType("blockType")
                 .blockPropertyValues("blockPropertyValues")
 
-                .exec(context -> {
-                    EntityPlayer user=(EntityPlayer) context.getSender();
-                    //user.sendMessage("filling...");
-                    BlockType<?> blockType = context.getResult(1);
-                    List<BlockPropertyType.BlockPropertyValue<?, ?, ?>> blockPropertyValues = context.getResult(2);
-                    var blockState = blockPropertyValues.isEmpty() ? blockType.getDefaultState() : blockType.ofState(blockPropertyValues);
-
-                    var posdata=AllayBuilder.posrecorder.get(user.getOriginName());
-
-                    AllayBuilder.fillblock(user,posdata.get("posa"),posdata.get("posb"),blockState,user.getDimension());
-
-                    //user.sendMessage("create the fillblock task");
-                    return context.success();
-                })
-
                 .key("maintain")
                 .blockType("maintainblockType")
                 .blockPropertyValues("maintainblockPropertyValues")
@@ -98,12 +83,18 @@ public class BuilderCommand extends Command {
                     var blockState = blockPropertyValues.isEmpty() ? blockType.getDefaultState() : blockType.ofState(blockPropertyValues);
 
                     var posdata=AllayBuilder.posrecorder.get(user.getOriginName());
+                    String keep=context.getResult(3);
+                    if(keep.isBlank()) {
+                        AllayBuilder.replaceblock(user,posdata.get("posa"),posdata.get("posb"),blockState, BlockTypes.AIR.getDefaultState(),user.getDimension());
 
-                    AllayBuilder.replaceblock(user,posdata.get("posa"),posdata.get("posb"),blockState, BlockTypes.AIR.getDefaultState(),user.getDimension());
+                    }else {
+                        AllayBuilder.fillblock(user,posdata.get("posa"),posdata.get("posb"),blockState,user.getDimension());
 
+                    }
                     //user.sendMessage("create the fillblock task");
                     return context.success();
                 })
+
 
                 .root()
                 .key("save")
