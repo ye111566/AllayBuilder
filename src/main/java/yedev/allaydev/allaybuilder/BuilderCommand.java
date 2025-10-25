@@ -84,7 +84,7 @@ public class BuilderCommand extends Command {
 
                     var posdata=AllayBuilder.posrecorder.get(user.getOriginName());
                     String keep=context.getResult(3);
-                    if(keep.isBlank()) {
+                    if(!keep.isBlank()) {
                         AllayBuilder.replaceblock(user,posdata.get("posa"),posdata.get("posb"),blockState, BlockTypes.AIR.getDefaultState(),user.getDimension());
 
                     }else {
