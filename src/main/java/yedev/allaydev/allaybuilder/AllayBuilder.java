@@ -16,6 +16,7 @@ import org.allaymc.api.entity.interfaces.EntityPlayer;
 import org.allaymc.api.registry.Registries;
 import org.allaymc.api.server.Server;
 import org.allaymc.api.world.Dimension;
+import org.joml.Vector3dc;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 import org.joml.Vector3ic;
@@ -268,8 +269,9 @@ public class AllayBuilder extends Plugin {
         });
     }
 
-    public static void spheriod(EntityPlayer user, Vector3fc center, int rx, int ry, int rz, BlockState blockState, Dimension dimension) {
+    public static void spheriod(EntityPlayer user, Vector3dc center, int rx, int ry, int rz, BlockState blockState, Dimension dimension) {
         // 检查任务管理器是否繁忙
+
         if (AllayBuilder.running) {
             user.sendMessage("任务列表繁忙，无法创建填充任务");
             return;
@@ -296,9 +298,9 @@ public class AllayBuilder extends Plugin {
             for (int y = minY; y <= maxY; y++) {
                 for (int z = minZ; z <= maxZ; z++) {
                     // 计算当前点相对于椭球体中心的偏移
-                    float dx = (x - center.x()) / (float) rx;
-                    float dy = (y - center.y()) / (float) ry;
-                    float dz = (z - center.z()) / (float) rz;
+                    float dx = (float) ((x - center.x()) / (float) rx);
+                    float dy = (float) ((y - center.y()) / (float) ry);
+                    float dz = (float) ((z - center.z()) / (float) rz);
 
                     // 检查是否在椭球体内部（包含边界）
                     if (dx * dx + dy * dy + dz * dz <= 1.0f) {
@@ -314,7 +316,7 @@ public class AllayBuilder extends Plugin {
         AllayBuilder.running = true; // 发送运行任务
     }
 
-    public static void cylinder(EntityPlayer user, Vector3fc center, int r, int h, BlockState blockState, Dimension dimension) {
+    public static void cylinder(EntityPlayer user, Vector3dc center, int r, int h, BlockState blockState, Dimension dimension) {
         if (AllayBuilder.running) {
             user.sendMessage("任务列表繁忙，无法创建填充任务");
             return;
@@ -339,8 +341,8 @@ public class AllayBuilder extends Plugin {
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
                 // 计算到圆柱轴心的水平距离
-                float dx = x - center.x();
-                float dz = z - center.z();
+                float dx = (float) (x - center.x());
+                float dz = (float) (z - center.z());
                 float distSquared = dx * dx + dz * dz;
 
                 // 如果在圆柱半径范围内
@@ -356,7 +358,7 @@ public class AllayBuilder extends Plugin {
         AllayBuilder.tasktotal = count;
         AllayBuilder.running = true;
     }
-    public static void cone(EntityPlayer user, Vector3fc center, int r, int h, BlockState blockState, Dimension dimension) {
+    public static void cone(EntityPlayer user, Vector3dc center, int r, int h, BlockState blockState, Dimension dimension) {
         if (AllayBuilder.running) {
             user.sendMessage("任务列表繁忙，无法创建填充任务");
             return;
@@ -379,7 +381,7 @@ public class AllayBuilder extends Plugin {
 
         for (int y = minY; y <= maxY; y++) {
             // 计算当前高度对应的半径
-            float heightRatio = (y - center.y()) / (float) h;
+            float heightRatio = (float) ((y - center.y()) / (float) h);
             if (heightRatio > 1.0f) heightRatio = 1.0f; // 防止超出高度范围
             float currentR = r * (1 - heightRatio);
             float currentRSquared = currentR * currentR;
@@ -387,8 +389,8 @@ public class AllayBuilder extends Plugin {
             for (int x = minX; x <= maxX; x++) {
                 for (int z = minZ; z <= maxZ; z++) {
                     // 计算到圆锥轴心的水平距离
-                    float dx = x - center.x();
-                    float dz = z - center.z();
+                    float dx = (float) (x - center.x());
+                    float dz = (float) (z - center.z());
                     float distSquared = dx * dx + dz * dz;
 
                     // 如果在当前高度的半径范围内

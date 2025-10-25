@@ -8,6 +8,7 @@ import org.allaymc.api.entity.interfaces.EntityPlayer;
 import org.allaymc.api.form.Forms;
 import org.allaymc.api.registry.Registries;
 import org.allaymc.api.permission.PermissionGroups;
+import org.joml.Vector3dc;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
@@ -184,7 +185,7 @@ public class BuilderCommand extends Command {
                 .blockPropertyValues("blockPropertyValues").optional()
                 .exec(context->{
                     EntityPlayer user=(EntityPlayer) context.getSender();
-                    Vector3fc center=context.getResult(1);
+                    Vector3dc center=context.getResult(1);
                     int rx=context.getResult(2);
                     int ry=context.getResult(3);
                     int rz=context.getResult(4);
@@ -205,7 +206,7 @@ public class BuilderCommand extends Command {
                 .blockPropertyValues("blockPropertyValues").optional()
                 .exec(context->{
                     EntityPlayer user=(EntityPlayer) context.getSender();
-                    Vector3fc center=context.getResult(1);
+                    Vector3dc center=context.getResult(1);
                     int r=context.getResult(2);
                     int h=context.getResult(3);
                     //int rz=context.getResult(4);
@@ -226,7 +227,7 @@ public class BuilderCommand extends Command {
                 .blockPropertyValues("blockPropertyValues").optional()
                 .exec(context->{
                     EntityPlayer user=(EntityPlayer) context.getSender();
-                    Vector3fc center=context.getResult(1);
+                    Vector3dc center=context.getResult(1);
                     int r=context.getResult(2);
                     int h=context.getResult(3);
                     //int rz=context.getResult(4);
