@@ -17,6 +17,7 @@ import org.allaymc.api.registry.Registries;
 import org.allaymc.api.server.Server;
 import org.allaymc.api.world.Dimension;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 import org.joml.Vector3ic;
 
 import java.util.HashMap;
@@ -267,7 +268,141 @@ public class AllayBuilder extends Plugin {
         });
     }
 
+    public static void spheriod(EntityPlayer user, Vector3fc center, int rx, int ry, int rz, BlockState blockState, Dimension dimension) {
+        // 检查任务管理器是否繁忙
+        if (AllayBuilder.running) {
+            user.sendMessage("任务列表繁忙，无法创建填充任务");
+            return;
+        }
 
+        // 设置任务参数
+        AllayBuilder.taskdimension = dimension;
+        AllayBuilder.taskblock = blockState;
+        AllayBuilder.taskuser = user;
+
+
+        // 计算椭球体的边界范围（整数坐标）
+        int minX = (int) Math.floor(center.x() - rx);
+        int maxX = (int) Math.ceil(center.x() + rx);
+        int minY = (int) Math.floor(center.y() - ry);
+        int maxY = (int) Math.ceil(center.y() + ry);
+        int minZ = (int) Math.floor(center.z() - rz);
+        int maxZ = (int) Math.ceil(center.z() + rz);
+
+        int count = 0; // 用于计数实际填充的方块数量
+
+        // 遍历包含椭球体的长方体区域
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                for (int z = minZ; z <= maxZ; z++) {
+                    // 计算当前点相对于椭球体中心的偏移
+                    float dx = (x - center.x()) / (float) rx;
+                    float dy = (y - center.y()) / (float) ry;
+                    float dz = (z - center.z()) / (float) rz;
+
+                    // 检查是否在椭球体内部（包含边界）
+                    if (dx * dx + dy * dy + dz * dz <= 1.0f) {
+                        blockList.add(new BlockData(x, y, z, blockState));
+                        count++;
+                    }
+                }
+            }
+        }
+
+        // 设置总任务量为实际填充的方块数
+        AllayBuilder.tasktotal = count;
+        AllayBuilder.running = true; // 发送运行任务
+    }
+
+    public static void cylinder(EntityPlayer user, Vector3fc center, int r, int h, BlockState blockState, Dimension dimension) {
+        if (AllayBuilder.running) {
+            user.sendMessage("任务列表繁忙，无法创建填充任务");
+            return;
+        }
+
+        AllayBuilder.taskdimension = dimension;
+        AllayBuilder.taskblock = blockState;
+        AllayBuilder.taskuser = user;
+
+
+        // 计算圆柱体边界
+        int minX = (int) Math.floor(center.x() - r);
+        int maxX = (int) Math.ceil(center.x() + r);
+        int minY = (int) Math.floor(center.y());
+        int maxY = (int) Math.ceil(center.y() + h);
+        int minZ = (int) Math.floor(center.z() - r);
+        int maxZ = (int) Math.ceil(center.z() + r);
+
+        int count = 0;
+        float rSquared = r * r;
+
+        for (int x = minX; x <= maxX; x++) {
+            for (int z = minZ; z <= maxZ; z++) {
+                // 计算到圆柱轴心的水平距离
+                float dx = x - center.x();
+                float dz = z - center.z();
+                float distSquared = dx * dx + dz * dz;
+
+                // 如果在圆柱半径范围内
+                if (distSquared <= rSquared) {
+                    for (int y = minY; y <= maxY; y++) {
+                        blockList.add(new BlockData(x, y, z, blockState));
+                        count++;
+                    }
+                }
+            }
+        }
+
+        AllayBuilder.tasktotal = count;
+        AllayBuilder.running = true;
+    }
+    public static void cone(EntityPlayer user, Vector3fc center, int r, int h, BlockState blockState, Dimension dimension) {
+        if (AllayBuilder.running) {
+            user.sendMessage("任务列表繁忙，无法创建填充任务");
+            return;
+        }
+
+        AllayBuilder.taskdimension = dimension;
+        AllayBuilder.taskblock = blockState;
+        AllayBuilder.taskuser = user;
+
+
+        // 计算圆锥体边界
+        int minX = (int) Math.floor(center.x() - r);
+        int maxX = (int) Math.ceil(center.x() + r);
+        int minY = (int) Math.floor(center.y());
+        int maxY = (int) Math.ceil(center.y() + h);
+        int minZ = (int) Math.floor(center.z() - r);
+        int maxZ = (int) Math.ceil(center.z() + r);
+
+        int count = 0;
+
+        for (int y = minY; y <= maxY; y++) {
+            // 计算当前高度对应的半径
+            float heightRatio = (y - center.y()) / (float) h;
+            if (heightRatio > 1.0f) heightRatio = 1.0f; // 防止超出高度范围
+            float currentR = r * (1 - heightRatio);
+            float currentRSquared = currentR * currentR;
+
+            for (int x = minX; x <= maxX; x++) {
+                for (int z = minZ; z <= maxZ; z++) {
+                    // 计算到圆锥轴心的水平距离
+                    float dx = x - center.x();
+                    float dz = z - center.z();
+                    float distSquared = dx * dx + dz * dz;
+
+                    // 如果在当前高度的半径范围内
+                    if (distSquared <= currentRSquared) {
+                        blockList.add(new BlockData(x, y, z, blockState));
+                        count++;
+                    }
+                }
+            }
+        }
+
+        AllayBuilder.tasktotal = count;
+        AllayBuilder.running = true;
+    }
 
     public record BlockData(int x, int y, int z, BlockState blockState) {}
     public static List<BlockData> blockList = new ArrayList<>();

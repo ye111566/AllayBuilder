@@ -8,6 +8,8 @@ import org.allaymc.api.entity.interfaces.EntityPlayer;
 import org.allaymc.api.form.Forms;
 import org.allaymc.api.registry.Registries;
 import org.allaymc.api.permission.PermissionGroups;
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -172,6 +174,71 @@ public class BuilderCommand extends Command {
                     AllayBuilder.debugarrow.put(user,show_load_direction);
                     return context.success();
                 })
+                .root()
+                .key("spheriod")//椭球体
+                .pos("center")
+                .intNum("rx")
+                .intNum("ry")
+                .intNum("rz")
+                .blockType("blockType")
+                .blockPropertyValues("blockPropertyValues").optional()
+                .exec(context->{
+                    EntityPlayer user=(EntityPlayer) context.getSender();
+                    Vector3fc center=context.getResult(1);
+                    int rx=context.getResult(2);
+                    int ry=context.getResult(3);
+                    int rz=context.getResult(4);
+                    BlockType<?> blockType = context.getResult(5);
+                    List<BlockPropertyType.BlockPropertyValue<?, ?, ?>> blockPropertyValues = context.getResult(6);
+                    var blockState = blockPropertyValues.isEmpty() ? blockType.getDefaultState() : blockType.ofState(blockPropertyValues);
+                    //var posdata=AllayBuilder.posrecorder.get(user.getOriginName());
+                    AllayBuilder.spheriod(user,center,rx,ry,rz,blockState,user.getDimension());
+
+                    return context.success();
+                })
+                .root()
+                .key("cone")//圆锥
+                .pos("center")
+                .intNum("r")
+                .intNum("h")
+                .blockType("blockType")
+                .blockPropertyValues("blockPropertyValues").optional()
+                .exec(context->{
+                    EntityPlayer user=(EntityPlayer) context.getSender();
+                    Vector3fc center=context.getResult(1);
+                    int r=context.getResult(2);
+                    int h=context.getResult(3);
+                    //int rz=context.getResult(4);
+                    BlockType<?> blockType = context.getResult(4);
+                    List<BlockPropertyType.BlockPropertyValue<?, ?, ?>> blockPropertyValues = context.getResult(5);
+                    var blockState = blockPropertyValues.isEmpty() ? blockType.getDefaultState() : blockType.ofState(blockPropertyValues);
+                    //var posdata=AllayBuilder.posrecorder.get(user.getOriginName());
+                    AllayBuilder.cone(user,center,r,h,blockState,user.getDimension());
+
+                    return context.success();
+                })
+                .root()
+                .key("cylinder")//圆柱
+                .pos("center")
+                .intNum("r")
+                .intNum("h")
+                .blockType("blockType")
+                .blockPropertyValues("blockPropertyValues").optional()
+                .exec(context->{
+                    EntityPlayer user=(EntityPlayer) context.getSender();
+                    Vector3fc center=context.getResult(1);
+                    int r=context.getResult(2);
+                    int h=context.getResult(3);
+                    //int rz=context.getResult(4);
+                    BlockType<?> blockType = context.getResult(4);
+                    List<BlockPropertyType.BlockPropertyValue<?, ?, ?>> blockPropertyValues = context.getResult(5);
+                    var blockState = blockPropertyValues.isEmpty() ? blockType.getDefaultState() : blockType.ofState(blockPropertyValues);
+                    //var posdata=AllayBuilder.posrecorder.get(user.getOriginName());
+                    AllayBuilder.cylinder(user,center,r,h,blockState,user.getDimension());
+
+                    return context.success();
+                })
+
 
 
 
